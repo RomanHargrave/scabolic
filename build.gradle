@@ -1,0 +1,60 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "com.github.maiflai:gradle-scalatest:0.9"
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'com.github.maiflai.scalatest'
+
+project(':scala-smtlib') {
+    apply plugin: 'java'
+    apply plugin: 'scala'
+    apply plugin: 'com.github.maiflai.scalatest'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile     group: 'org.scala-lang',    name: 'scala-library-all',  version: '2.11.2'
+        testCompile group: 'org.scalatest',     name: 'scalatest_2.11',     version: '2.2.1'
+        testRuntime group: 'org.pegdown',       name: 'pegdown',            version: '1.1.0'
+    }
+
+    tasks.withType(ScalaCompile) {
+        scalaCompileOptions.useAnt = false
+        scalaCompileOptions.additionalParameters = [
+            "-unchecked",
+            "-deprecation",
+            "-feature"
+        ]
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile     group: 'org.scala-lang',    name: 'scala-library-all',  version: '2.11.4'
+    compile     project(':scala-smtlib')
+
+    testCompile group: 'org.scalatest',     name: 'scalatest_2.11',     version: '2.2.1'
+    testRuntime group: 'org.pegdown',       name: 'pegdown',            version: '1.1.0'
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+    scalaCompileOptions.additionalParameters = [
+        "-unchecked",
+        "-deprecation",
+        "-feature"
+    ]
+}
